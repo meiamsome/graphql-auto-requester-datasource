@@ -40,7 +40,7 @@ describe('GraphQLAutoRequesterDataSource', () => {
     let instance: TestDataSource
     beforeEach(() => {
       instance = new TestDataSource()
-      jest.spyOn(graphqlTools, 'introspectSchema').mockResolvedValueOnce(buildSchema(schemaDocument))
+      jest.spyOn(graphqlTools, 'introspectSchema').mockResolvedValue(buildSchema(schemaDocument))
     })
     afterEach(() => {
       graphqlTools.introspectSchema.mockReset()
@@ -81,7 +81,7 @@ describe('GraphQLAutoRequesterDataSource', () => {
     })
 
     describe('without willSendRequest', () => {
-      it('works', async () => {
+      it('resolves a field correctly', async () => {
         await instance.initialize(dataSourceConfig)
         expect(fetch).toHaveBeenCalledTimes(0)
 
@@ -119,24 +119,22 @@ describe('GraphQLAutoRequesterDataSource', () => {
     }
 
     let instance: TestDataSource
-    let fieldA: GraphQLField<{}, {}> | undefined
+    let fieldA: GraphQLField<{}, {}>
     beforeEach(() => {
-      fieldA = schema.getQueryType()?.getFields()?.fieldA
-      if (fieldA) {
-        fieldA.resolve = jest.fn().mockResolvedValue(1)
-      }
+      fieldA = schema.getQueryType()?.getFields()?.fieldA!
+      fieldA.resolve = jest.fn().mockResolvedValue(1)
       instance = new TestDataSource()
     })
 
     describe('without willSendRequest', () => {
-      it('works', async () => {
+      it('resolves a field correctly', async () => {
         await instance.initialize(dataSourceConfig)
         expect(fetch).toHaveBeenCalledTimes(0)
 
         await expect(instance.query!.fieldA).resolves.toBe(1)
 
         expect(fetch).toHaveBeenCalledTimes(0)
-        expect(fieldA!.resolve).toHaveBeenCalledTimes(1)
+        expect(fieldA.resolve).toHaveBeenCalledTimes(1)
       })
     })
 
@@ -145,7 +143,7 @@ describe('GraphQLAutoRequesterDataSource', () => {
         instance.willSendRequest = jest.fn().mockResolvedValue(undefined)
       })
 
-      it('calls willSendRequest', async () => {
+      it('doesn\'t call willSendRequest', async () => {
         await instance.initialize(dataSourceConfig)
         expect(fetch).toHaveBeenCalledTimes(0)
 
@@ -153,7 +151,7 @@ describe('GraphQLAutoRequesterDataSource', () => {
 
         expect(instance.willSendRequest).toHaveBeenCalledTimes(0)
         expect(fetch).toHaveBeenCalledTimes(0)
-        expect(fieldA!.resolve).toHaveBeenCalledTimes(1)
+        expect(fieldA.resolve).toHaveBeenCalledTimes(1)
       })
     })
   })

@@ -3,7 +3,7 @@ import { GraphQLSchema, print, ExecutionResult } from 'graphql'
 import { introspectSchema, makeRemoteExecutableSchema } from 'graphql-tools'
 import { Fetcher } from 'graphql-tools/dist/stitching/makeRemoteExecutableSchema'
 import { ExecutionResultDataDefault } from 'graphql/execution/execute'
-// @ts-ignore
+// @ts-ignore This library has no types.
 import { digest } from 'json-hash'
 import fetch, { Request, RequestInfo } from 'node-fetch'
 import { GraphQLAutoRequester, AutoGraphQLObjectType } from 'graphql-auto-requester'
