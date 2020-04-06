@@ -19,8 +19,8 @@ class IntrospectedGraphQLService extends GraphQLAutoRequesterDataSource {
 
 ###  Using A Schema Document
 
-If you wish to use a Schema Document, you must set the `baseURL` for your service in the constructor, and provide the
-schema document as a property on the class itself.
+If you wish to use a schema document, you must set the `baseURL` for your service in the constructor and provide the
+schema document as a property on the class itself:
 ```js
 class SchemaDocumentGraphQLService extends GraphQLAutoRequesterDataSource {
   constructor() {
@@ -37,7 +37,7 @@ SchemaDocumentGraphQLService.schemaDocument = `
 
 ###  Using An executable Schema
 
-If you wish to use an executable Schema, you can set the `executableSchema` property in the constructor
+If you wish to use an executable schema, you can set the `executableSchema` property in the constructor:
 ```js
 class ExecutableSchemaGraphQLService extends GraphQLAutoRequesterDataSource {
   constructor() {
@@ -48,10 +48,10 @@ class ExecutableSchemaGraphQLService extends GraphQLAutoRequesterDataSource {
 
 ## Usage as a DataSource:
 
-Once you have your dataSource configured in your Apollo Server initialization, you can then access the `.query` field
+Once you have your DataSource configured in your Apollo Server initialization, you can then access the `.query` property
 from the dataSources key in your resolvers to start a query against the upstream service. For more information on the
 usage of the `graphql-auto-requester` see [its
-documentation](https://github.com/meiamsome/graphql-auto-requester/blob/master/Readme.md)
+documentation](https://github.com/meiamsome/graphql-auto-requester/blob/master/Readme.md).
 ```js
 const resolvers = {
   Query: {
